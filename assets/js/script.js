@@ -61,6 +61,7 @@ var questionArray = [
 ];
 
 function newScreen(){
+    currentQuestion = 0;
     startScreenEl.style.display = "flex";
     quizEl.style.display = "none";
     endScreenEl.style.display = "none";
@@ -68,21 +69,25 @@ function newScreen(){
 }
 
 function startHandler(){
-    var timeLeft = 5;
+    var timeLeft = 10;
     startScreenEl.style.display = "none";
     quizEl.style.display = "block";
     var timeInterval = setInterval(function () {
         timerEl.textContent = "Time: " + timeLeft + " seconds";
         timeLeft--;
-        if (timeLeft === 0) {
-            timerEl.textContent = "Time: " + timeLeft + " seconds";
+        if (timeLeft === 0 || currentQuestion === questionArray.length) {
+            if(timeLeft === 0){
+                score = 0;
+            }else{
+                score = timeLeft;
+            }
             clearInterval(timeInterval);
-            score = 0;
             loadEndScreen();
         }
     
       }, 1000);
 }
+
 
 function loadQuestion(questionIndex){
     var q = questionArray[questionIndex];
@@ -94,14 +99,22 @@ function loadQuestion(questionIndex){
 }
 
 function loadNextQuestion(){
-
+        currentQuestion++;
+        loadQuestion(currentQuestion);
 }
 
 function loadEndScreen(){
     quizEl.style.display = "none";
     endScreenEl.style.display = "flex";
-    saveBtnEl.addEventListener("click", newScreen);
+    scoreEl.textContent = "Score: " + score;
+    timerEl.textContent = "";
+    saveBtnEl.addEventListener("click", newScreen)
+
 }
 
 newScreen();
 startBtnEl.addEventListener("click", startHandler);
+btn1El.addEventListener("click", loadNextQuestion);
+btn2El.addEventListener("click", loadNextQuestion);
+btn3El.addEventListener("click", loadNextQuestion);
+btn4El.addEventListener("click", loadNextQuestion);
