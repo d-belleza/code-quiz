@@ -3,6 +3,7 @@ var currentQuestion = 0;
 var score = 0;
 var timeLeft = 60;
 
+var mainContainerEl = document.getElementById("main-container");
 var startScreenEl = document.getElementById("start-screen");
 var startBtnEl = document.getElementById("start-btn");
 var timerEl = document.getElementById("countdown");
@@ -18,6 +19,12 @@ var optn3El = document.getElementById("optn3");
 var optn4El = document.getElementById("optn4");
 var nextBtnEl = document.getElementById("next-btn");
 var alertEl = document.getElementById("alert-msg");
+
+var scoresEl = document.getElementById("scores");
+var hiScoreBtnEl = document.getElementById("high-scores");
+var scoreScreenEl = document.getElementById("score-screen");
+var backBtnEl = document.getElementById("back-btn");
+var clearBtnEl = document.getElementById("clear-btn");
 
 //Question assignment
 var questionArray = [
@@ -65,9 +72,11 @@ var questionArray = [
 
 function newScreen(){
     currentQuestion = 0;
+    score = 0;
     startScreenEl.style.display = "flex";
     quizEl.style.display = "none";
     endScreenEl.style.display = "none";
+    scoreScreenEl.style.display = "none";
     loadQuestion(currentQuestion);
 }
 
@@ -118,10 +127,6 @@ function loadNextQuestion(){
     }
     selectedOption.checked = false;
     currentQuestion++;
-    if(currentQuestion === (questionArray.length - 1)) {
-        nextBtnEl.textContent = "Finish";
-
-    }
     loadQuestion(currentQuestion);
 }
 
@@ -130,10 +135,32 @@ function loadEndScreen(){
     endScreenEl.style.display = "flex";
     scoreEl.textContent = "Score: " + score;
     timerEl.textContent = "";
+
     saveBtnEl.addEventListener("click", newScreen);
 
 }
 
+function hiScoreHandler(){
+    scoreScreenEl.style.display = "block";
+    hiScoreBtnEl.style.display = "none";
+    mainContainerEl.style.display = "none";
+    backBtnEl.addEventListener("click", backHandler);
+    clearBtnEl.addEventListener("click", clearHandler);
+}
+
+function backHandler(){
+    mainContainerEl.style.display = "block";
+    hiScoreBtnEl.style.display = "block";
+    scoreScreenEl.style.display = "none";
+}
+
+function clearHandler(){
+
+}
+
+
 newScreen();
 startBtnEl.addEventListener("click", startHandler);
 nextBtnEl.addEventListener("click", loadNextQuestion);
+hiScoreBtnEl.addEventListener("click", hiScoreHandler);
+

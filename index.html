@@ -9,13 +9,21 @@
 </head>
 <body>
     <header>
-        <div class="scores">
+        <div class="scores" id="scores">
             <button class="btn" type="submit" id="high-scores">View high scores</button>
+            <div id="score-screen">
+                <h1>High Scores</h1>
+                <ol id="scorelist">
+                    <li id="score"></li>
+                </ol>
+                <button id="back-btn" class="btn">Back</button>
+                <button id="clear-btn" class="btn">Clear</button>
+            </div>
         </div>
         <h2 id="countdown"></h2>
     </header>
     <main>
-        <div class="container">
+        <div class="container" id="main-container">
             <div id="start-screen">
                 <h1>Coding Quiz</h1>
                 <p>
