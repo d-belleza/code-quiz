@@ -1,7 +1,7 @@
 //Assignments
 var currentQuestion = 0;
 var score = 0;
-var timeLeft = 30;
+var timeLeft = 60;
 
 var startScreenEl = document.getElementById("start-screen");
 var startBtnEl = document.getElementById("start-btn");
@@ -27,7 +27,7 @@ var questionArray = [
         option2: "Booleans",
         option3: "Alerts",
         option4: "Numbers",
-        answer: "Numbers"
+        correct: "4"
     },
     {
         question: "The condition in an if/else statement is enclosed within",
@@ -35,7 +35,7 @@ var questionArray = [
         option2: "Curly Brackets",
         option3: "Parenthesis",
         option4: "Square Brackets",
-        answer: "Curly Brackets"
+        correct: "2"
     },
     {
         question: "Arrays in Javascript can be used to store",
@@ -43,7 +43,7 @@ var questionArray = [
         option2: "Other Arrays",
         option3: "Booleans",
         option4: "All of the above",
-        answer: "All of the above"
+        correct: "4"
     },
     {
         question: "String values must be enclosed within____. When being assigned to variables",
@@ -51,7 +51,7 @@ var questionArray = [
         option2: "Curly Brackets",
         option3: "Quotes",
         option4: "Parenthesis",
-        answer: "Parenthesis"
+        correct: "4"
     },
     {
         question: "A very useful tool used during development and debugging for printing content to the debugger is",
@@ -59,7 +59,7 @@ var questionArray = [
         option2: "Terminal/Bash",
         option3: "For Loops",
         option4: "Console.log",
-        answer: "Console.log"
+        correct: "4"
     }
 ];
 
@@ -82,7 +82,7 @@ function startHandler(){
             if(countdown === 0){
                 score = 0;
             }else{
-                score = countdown;
+                score += countdown;
             }
             clearInterval(timeInterval);
             loadEndScreen();
@@ -108,18 +108,19 @@ function loadNextQuestion(){
         return;
 
     }
-    var answer = selectedOption.nodeValue;
-    if(questionArray[currentQuestion].answer == answer) {
+    var answer = selectedOption.value;
+    console.log(answer);
+    if(questionArray[currentQuestion].correct == answer) {
         alertEl.textContent = "Correct!";
+    }else{
+        alertEl.textContent = "Incorrect!";
+        score -= 10;
     }
     selectedOption.checked = false;
     currentQuestion++;
     if(currentQuestion === (questionArray.length - 1)) {
         nextBtnEl.textContent = "Finish";
 
-    }
-    if(currentQuestion === questionArray.length){
-        loadEndScreen();
     }
     loadQuestion(currentQuestion);
 }
