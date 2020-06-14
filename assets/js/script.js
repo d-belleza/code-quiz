@@ -3,9 +3,12 @@ var currentQuestion = 0;
 var score = 0;
 
 var startScreenEl = document.getElementById("start-screen");
+var startBtnEl = document.getElementById("start-btn");
 var timerEl = document.getElementById("countdown");
 var quizEl = document.getElementById("quiz");
 var endScreenEl = document.getElementById("end-screen");
+var scoreEl = document.getElementById("your-score");
+var saveBtnEl = document.getElementById("save-score");
 
 var questionEl = document.getElementById("question");
 var btn1El = document.getElementById("btn1");
@@ -58,24 +61,24 @@ var questionArray = [
 ];
 
 function newScreen(){
+    startScreenEl.style.display = "flex";
     quizEl.style.display = "none";
     endScreenEl.style.display = "none";
+    loadQuestion(currentQuestion);
 }
 
 function startHandler(){
     var timeLeft = 5;
     startScreenEl.style.display = "none";
     quizEl.style.display = "block";
-    
     var timeInterval = setInterval(function () {
         timerEl.textContent = "Time: " + timeLeft + " seconds";
-        loadQuestion(currentQuestion);
         timeLeft--;
         if (timeLeft === 0) {
-            quizEl.style.display = "none";
-            endScreenEl.style.display = "block";    
             timerEl.textContent = "Time: " + timeLeft + " seconds";
             clearInterval(timeInterval);
+            score = 0;
+            loadEndScreen();
         }
     
       }, 1000);
@@ -83,12 +86,22 @@ function startHandler(){
 
 function loadQuestion(questionIndex){
     var q = questionArray[questionIndex];
-    questionEl.textContent = (questionIndex + 1) + ". " + q.question;
+    questionEl.textContent = (questionIndex + 1) + ". " + q.q;
     btn1El.textContent = q.option1;
     btn2El.textContent = q.option2;
     btn3El.textContent = q.option3;
     btn4El.textContent = q.option4;
 }
 
+function loadNextQuestion(){
+
+}
+
+function loadEndScreen(){
+    quizEl.style.display = "none";
+    endScreenEl.style.display = "flex";
+    saveBtnEl.addEventListener("click", newScreen);
+}
+
 newScreen();
-startScreenEl.addEventListener("click", startHandler);
+startBtnEl.addEventListener("click", startHandler);
