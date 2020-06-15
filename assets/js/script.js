@@ -83,6 +83,7 @@ function newScreen(){
     quizEl.style.display = "none";
     endScreenEl.style.display = "none";
     scoreScreenEl.style.display = "none";
+    loadScores();
     loadQuestion(currentQuestion);
 }
 
@@ -129,7 +130,6 @@ function loadNextQuestion(){
         alertEl.textContent = "Correct!";
     }else{
         alertEl.textContent = "Incorrect!";
-        score -= 10;
     }
     selectedOption.checked = false;
     currentQuestion++;
