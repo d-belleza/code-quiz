@@ -1,6 +1,5 @@
 //Assignments
 var currentQuestion = 0;
-var score = 0;
 var timeLeft = 60;
 
 var mainContainerEl = document.getElementById("main-container");
@@ -10,6 +9,7 @@ var timerEl = document.getElementById("countdown");
 var quizEl = document.getElementById("quiz");
 var endScreenEl = document.getElementById("end-screen");
 var scoreEl = document.getElementById("your-score");
+var initalBoxEl = document.getElementById("initial-box");
 var saveBtnEl = document.getElementById("save-score");
 
 var questionEl = document.getElementById("question");
@@ -25,6 +25,11 @@ var hiScoreBtnEl = document.getElementById("high-scores");
 var scoreScreenEl = document.getElementById("score-screen");
 var backBtnEl = document.getElementById("back-btn");
 var clearBtnEl = document.getElementById("clear-btn");
+var initalSpan = document.querySelector("#initial-span");
+var scoreSpan = document.querySelector("#score-span");
+
+
+var score = 0;
 
 //Question assignment
 var questionArray = [
@@ -69,6 +74,7 @@ var questionArray = [
         correct: "4"
     }
 ];
+
 
 function newScreen(){
     currentQuestion = 0;
@@ -135,15 +141,35 @@ function loadEndScreen(){
     endScreenEl.style.display = "flex";
     scoreEl.textContent = "Score: " + score;
     timerEl.textContent = "";
+    saveBtnEl.addEventListener("click", function(event){
+        event.preventDefault();
+        var playerName = document.querySelector("input[name='initials']").value;
+        if(playerName === ""){
+            alert("Enter initials");
+        }else{
+            localStorage.setItem("initial", playerName);
+            localStorage.setItem("score", score);
+            loadScores();
+            newScreen();
+        }
+    });
+}
 
-    saveBtnEl.addEventListener("click", newScreen);
-
+function loadScores(){
+    var playerName = localStorage.getItem("initial");
+    var playerScore = localStorage.getItem("score");
+    if(playerName && playerScore === null){
+        return;
+    }
+    initalSpan.textContent = playerName;
+    scoreSpan.textContent = playerScore;
 }
 
 function hiScoreHandler(){
     scoreScreenEl.style.display = "block";
     hiScoreBtnEl.style.display = "none";
     mainContainerEl.style.display = "none";
+    loadScores();
     backBtnEl.addEventListener("click", backHandler);
     clearBtnEl.addEventListener("click", clearHandler);
 }
@@ -155,7 +181,8 @@ function backHandler(){
 }
 
 function clearHandler(){
-
+    initalSpan.remove();
+    scoreSpan.remove();
 }
 
 
